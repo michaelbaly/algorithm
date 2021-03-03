@@ -9,7 +9,7 @@
 + EXTRACT-MAX(S)
 + INCREASE-KEY(S, x, k) --- increase x's key value to k
 
-## left right parent relationship
+## left/right/parent relationship
 ```
 PARENT(i)
     return floor(i/2)
@@ -32,6 +32,19 @@ BUILD-MIN-HEAP(A)
     for i = floor(A.length/2) downto 1
         MIN-HEAPIFY(A, i)
 ```
+## heapsort
+```
+HEAPSORT(A)
+  BUILD-MAX-HEAP(A)
+  for i = A.length downto 2
+      exchange A[1] with A[i]
+      MAX-HEAPIFY(A, 1)
+```
+## top k elements in MAX-HEAP with running time of k*logk
+```
+TOPK-MAX-HEAP(A, k)
+```
+
 ![](max_heapify.png)
 + Pseudocode
 ```
