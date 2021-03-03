@@ -9,7 +9,29 @@
 + EXTRACT-MAX(S)
 + INCREASE-KEY(S, x, k) --- increase x's key value to k
 
-
+## left right parent relationship
+```
+PARENT(i)
+    return floor(i/2)
+LEFT(i)
+    return 2*i
+RIGHT(i)
+    return 2*i + 1
+```
+## build max heap (Assuming we have n for heap-size)
+```
+BUILD-MAX-HEAP(A)
+    A.heap-size = A.length
+    for i = floor(A.length/2) downto 1
+        MAX-HEAPIFY(A, i)
+```
+## build min heap
+```
+BUILD-MIN-HEAP(A)
+    A.heap-size = A.length
+    for i = floor(A.length/2) downto 1
+        MIN-HEAPIFY(A, i)
+```
 ![](max_heapify.png)
 + Pseudocode
 ```
