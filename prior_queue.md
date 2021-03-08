@@ -40,10 +40,23 @@ HEAPSORT(A)
       exchange A[1] with A[i]
       MAX-HEAPIFY(A, 1)
 ```
-## top k elements in MAX-HEAP with running time of k*logk
+## top k elements in random array with running time of O(n*logk)
 ```
 TOPK-MAX-HEAP(A, k)
+  if A.length < k
+      error "heap size less than k"
+  for i = 1 to k
+      B[i] = A[i]
+  BUILD-MIN-HEAP(B) /* So, B is a heap with k elements */
+
+  for i = k to n /* loop for n - k times */
+      if A[i] > B[1]
+          exchange B[1] with A[i]
+          /* min heapify */
+          MIN-HEAPIFY(B) /* cost O(logk) */
+  total running time: (n-k)*logk which match O(n*logk)
 ```
+## Further discussion: if we have a max-heap with n element, how can we decrese the runing time to O(k*logk) ???
 
 ![](max_heapify.png)
 + Pseudocode
