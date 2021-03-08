@@ -2,7 +2,7 @@
 # Use in which scenarios ? --- job scheduler
 + based on max-heaps
 + defination: a priority queue is *data structure* for maintaining a set of
-  S of elements, each with an associated value called a *key*
+  S of elements, each with an associated value called a **key**
 ## support operation for max-priority queue
 + INSERT(S, x)
 + MAXIMUM(S)
@@ -57,6 +57,29 @@ TOPK-MAX-HEAP(A, k)
   total running time: (n-k)*logk which match O(n*logk)
 ```
 ## Further discussion: if we have a max-heap with n element, how can we decrese the runing time to O(k*logk) ???
+* the MAIN IDEA is: we can build another max-heap from where we can extract the biggest element
+  each time, assuming original heap is T, and we can build A, whose elements are records with
+  two fields: key and position(in T)
+```
+TOPK-MAX-HEAP(T)
+  x.key = T[1]
+  x.position = 1
+  INSERT(A, x) /* after this, we have max heap with only A[1] */
+  for i = 1 to k
+      x = HEAP-EXTRACT-MAX(A)
+      output x.key
+      j = x.position
+      /* since we have extract the biggest element, we have to insert its child and max heapify the A */
+      if (2*j) <= n
+          x.key = T[2*j]
+          x.position = 2*j
+          INSERT(A, x)
+      if (2*j + 1) <= n
+          x.key = T[2*j + 1]
+          x.position = 2*j + 1
+          INSERT(A, x)
+```
++ running time: HEAP-EXTRACT-MAX procedure will take responsibility to max heap A
 
 ![](max_heapify.png)
 + Pseudocode
@@ -104,6 +127,7 @@ HEAP-EXTRACT-MAX(A)
   A[1] = A[A.heap-size] /* likely to violate max-heap property */
   A.heap-size --
   MAX-HEAPIFY(A, 1) /* for keeping heap property */
+  return max
 ```
 ```
 HEAP-INCREASE-KEY(A, i, key)
