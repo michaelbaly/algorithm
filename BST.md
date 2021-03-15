@@ -38,8 +38,7 @@ TREE-MAXIMUM(x)
   return x
 ```
 ## find successor
-### we can assuming that node on right subtree of BST may not have
-### a successor
+### we can assuming that node on right subtree of BST may not have a successor
 ```
 TREE-SUCCESSOR(x)
   if x.right != nil
@@ -51,10 +50,16 @@ TREE-SUCCESSOR(x)
   return y  /* find or nil */
 ```
 ## find predecessor
-###
 ```
 TREE-PREDECESSOR(x)
-  TBD:
+  if x.left != nil
+      return TREE-MAXIMUN(x.left)
+  y = x.p
+  while y != nil and x == y.left
+      x = p
+      y = y.p
+  return y /* find or nil */
+
 ```
 ## tree insert
 ```
