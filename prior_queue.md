@@ -58,7 +58,7 @@ TOPK-MAX-HEAP(A, k)
   total running time: (n-k)*logk which match O(n*logk)
 ```
 ## Further discussion: if we have a max-heap with n element, how can we decrese the runing time to O(k*logk) ???
-* the MAIN IDEA is: we can build another max-heap from where we can extract the biggest element
+* the **MAIN IDEA** is: we can build another max-heap from where we can extract the biggest element
   each time, assuming original heap is T, and we can build A, whose elements are records with
   two fields: key and position(in T)
 ```
@@ -143,21 +143,36 @@ HEAP-INCREASE-KEY(A, i, key)
 + correctness:
 + running time: O(logn)
 
+## HEAP INSERT
 ```
-MAX-HEAP-INSERT(A. key)
-  A.heap-size ++
-  A[A.heap-size] = -unlimited
-  HEAP-INCREASE-KEY(A, A.heap-size, key)
+MAX-HEAP-INSERT(A, key)
+  A.heap-size ++ /* increase space for new element first*/
+  A[A.heap-size] = -unlimited /* on one of leafs */
+  HEAP-INCREASE-KEY(A, A.heap-size, key) /* flow up the element from tail */
 ```
-+ correctness:
-+ running time: O(logn)
+## HEAP DELETE
+```
+MAX-HEAP-DELETE(A, i)
+  MAX-HEAP-INCREASE(A, i, infinate)
+  HEAP-EXTRACT-MAX(A)
+```
+###### TIPS: extract max operation will guarantee MAX-HEAP property
 
+###### correctness: after heap increase, A[1] will be max, then replace it
+###### running time: O(logn)
+* 1 base on at which height of A[i] lies, so at worst case, increase will begin from
+bottom, which takes O(logn)
+* 2 extract takes O(logn) in order to maintain max-heap property
+
+#### My version for heap delete, regardless it's max heap or min heap
 ```
 HEAP-DELETION(A, i)
-  /* max = {A[LEFT(i)], A[RIGHT(i)]}
-  A[i] = max - 1 /* replace A[i] with a less value */
-  MAX-HEAPIFY(A, i) */
   j = i
+  if A[1] > A[2] // it's max heap
+      htype = max
+  else htype = min
+  // TBD
+
   A[j] = -unlimited
   /* trace the index where A[i] goes */
   while j < A.heap-size
@@ -168,39 +183,38 @@ HEAP-DELETION(A, i)
           exchage A[LEFT(j)] with A[j]
           j = LEFT(j)
   /* remove A[j] */
-  if A[j].p.left == A[j]
+  /* if A[j].p.left == A[j]
       A[j].p.left = nil
-  else A[j].p.right = nil
+  else A[j].p.right = nil */
   A.heap-size = A.heap-size - 1
 ```
 + running time: O(logn)
 ## Conclusion: a heap can support any priority-queue operation on a set of size n in O(logn) time.
 
-## regarding to min-heap
-## support operations:
+## Regarding to min-heap
+### support operations:
 + INSERT
 + MINIMUM
 + EXTRACT-MIN
 + DECREASE-KEY
 
-# HOW to build a min-heap ?
-# USE in which scenarios ? --- event-drive simulator
+### HOW to build a min-heap ?
+### USE in which scenarios ? --- event-drive simulator
 
-## Pseudocode for operations
-
+#### EXTRACT-MIN used to choose next event to for simulate
+###### Pseudocode for operations
 ```
 MIN-HEAP-MINIMUM(A)
   return A[1]
 ```
-## EXTRACT-MIN used to choose next event to for simulate
 ```
 MIN-HEAP-EXTRACT-MIN(A)
   min = A[1]
   A[1] = A[A.heap-size]
   A.heap-size = A.heap-size - 1
   MIN-HEAPIFY(A, 1)
+  return min
 ```
-
 ```
 HEAP-DECREASE-KEY(A, i, k)
     if k >= A[i]
@@ -211,10 +225,14 @@ HEAP-DECREASE-KEY(A, i, k)
         exchange A[PARENT(i)] with A[i]
         i = PARENT(i)
 ```
-
 ```
 MIN-HEAP-INSERT(A, k)
     A.heap-size = A.heap-size + 1
     A[A.heap-size] = + infinate
     HEAP-DECREASE-KEY(A, A.heap-size, k)
+```
+```
+MIN-HEAP-DELETE(A, i)
+    MIN-HEAP-DECREASE(A, i, -infinate)
+    MIN-HEAP-EXTRACT-MIN(A)
 ```
