@@ -1,4 +1,5 @@
 # How to implement max-priority queue?
++ The main idea is to use **heap data structure**
 # Use in which scenarios ? --- job scheduler
 + based on max-heaps
 + defination: a priority queue is *data structure* for maintaining a set of
