@@ -23,12 +23,13 @@ POP(S)
 ```
 FIND-MIN(S)
   min = S[S.top]
+  /* walk the whole stack will cause linear time */
   for i = S.top - 1 to 1
-      if S.top < min
-          min = S[S.top]
+      if S[i] < min
+          min = S[i]
   return min
 ```
-+ running time: S.top is a constant value assming N. it will take N*O(1) ~ O(1)
++ running time:  Assming S has N elements. it will take O(N)
 
 ## operations on queue
 + question: why do not implement n elements in array A[1...n]???

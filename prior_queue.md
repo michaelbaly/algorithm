@@ -220,7 +220,7 @@ HEAP-DECREASE-KEY(A, i, k)
     if k >= A[i]
         error "new value should be less than current one"
     A[i] = k
-    while i > 1 and A[PARENT(i)] > A[i]
+    while i >= 1 and A[PARENT(i)] > A[i]
         /* move up lower value */
         exchange A[PARENT(i)] with A[i]
         i = PARENT(i)
