@@ -41,3 +41,19 @@ PARTITION(A, p, r)
 + best case partitioning
 + recurrence : T(n) = 2T(n/2) + thelta(n)
 + running time: O(nlogn)
+
+### random choose pivot element
++ expect the split of input array to be reasonably well balanced on average
+
+```
+RANDOMIZED-PARTITION(A, p, r)
+  i = RANDOM(A)
+  exchange A[r] with A[i] // so A[i] will be the expected pivot
+  return PARTITION(A, p, r)
+```
+```
+RANDOMIZED-QUICKSORT(A, p, r)
+  q = RANDOMIZED-PARTITION(A, p, r)
+  RANDOMIZED-QUICKSORT(A, p, q-1)
+  RANDOMIZED-QUICKSORT(A, q+1, r)
+```
