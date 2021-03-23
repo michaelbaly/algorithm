@@ -7,7 +7,7 @@
 QUICKSORT(A, p, r)
   q = PARTITION(A, p, r)
   QUICKSORT(A, p, q-1)
-  QUICKSORT(A, p, q+1)
+  QUICKSORT(A, q+1, r)
 ```
 ![](image/partition.png)
 ```
@@ -17,7 +17,7 @@ PARTITION(A, p, r)
   for j = p to r - 1
       if A[j] <= x
           i = i + 1
-          /* A[i] is bigger than x, except first round where A[1] exchage with itself */
+          /* A[i] is bigger than x, except first round where A[1] exchange with itself */
           exchange A[i] with A[j]
   /* exchange the first bigger element with pivot */
   exchage A[i+1] with A[r]
