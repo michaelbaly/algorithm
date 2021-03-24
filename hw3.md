@@ -95,3 +95,10 @@ on left with the smallest one on right, and choose the small one to save in arra
 *2 SELECT takes linear time
 *3 line~line takes constant k-1 times to pick the expected element, thus takes (k-1)O(n)
 *4 cause k is much less than n, thelta(n)+(2+k-1)O(n) = O(n), thus running time is O(n)
+
+### problem 5
++ 1 separate chain
++ 2 linear probe
+![](image/hash_linearprobing.jpg)
++ 3 quad probe --- base/step
++ 4 double hashing
