@@ -58,3 +58,40 @@ K-CLOEST-ELEMENTS(S, k)
       B[indies++] = S[left]
       left = SELECT(S, 1, n, i+1)
 ```
+```
+K-CLOEST-ELEMENTS(S, k)
+  mid = (1+n)/2
+  median = S[mid]
+  /* use median to partition S */
+  exchange S[mid] with S[n]
+  q = PARTITION(S, 1, n)
+  /* subarray S[1...q-1], S[q+1...n] contains elements less or bigger than A[q] respectively */
+  i = q - 1
+  j = 1
+  left = SELECT(S, 1, q-1, i)
+  right = SELECT(S, q+1, n, j)
+  for num = 1 to k -1
+      interval_l = abs(S[left] - median)
+      interval_r = abs(S[right] - median)
+      if interval_l > interval_r
+          B[indies++] = S[right]
+          i = i -1
+          right = SELECT(S, q+1, n, i)
+      else
+          B[indies++] = S[left]
+          j = j + 1
+          left = SELECT(S, 1, q-1, j)
+  B[indies] = median
+  output B
+```
++ correctness:
+*1 we use median to partition the set S, after the partition, left subarray contains elements less
+than S[q], right subarray contains bigger.
+*2 to find the k - 1 numbers elements closest to median, every time we compare the biggest element
+on left with the smallest one on right, and choose the small one to save in array B
+*3 finally, we save median to B, which contains k numbers  
++ running time
+*1 partition takes thelta(n)
+*2 SELECT takes linear time
+*3 line~line takes constant k-1 times to pick the expected element, thus takes (k-1)O(n)
+*4 cause k is much less than n, thelta(n)+(2+k-1)O(n) = O(n), thus running time is O(n)
