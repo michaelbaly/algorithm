@@ -63,7 +63,7 @@ K-CLOEST-ELEMENTS(S, k)
       left = SELECT(S, 1, n, i+1)
 ```
 ```
-K-CLOEST-ELEMENTS(S, k)
+K-CLOSEST-ELEMENTS(S, k)
   mid = (1+n)/2
   median = S[mid]
   /* use median to partition S */
