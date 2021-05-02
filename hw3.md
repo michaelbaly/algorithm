@@ -2,7 +2,7 @@
 + desc: x = a + b where a,b belongs two array A, B sizeof n (not sorted)
 + requirement: O(nlogn)
 ```
-ELEMENT-EXIST(A, B, x)
+ELEMENT-EXIST-FOR-SUM(A, B, x)
   HEAPSORT(B)
   for i = 1 to n
       y = x - A[i]
@@ -29,8 +29,12 @@ BIN-SEARCH(B, begin, end, y)
 *3 thus, running time is O(nlogn)
 
 ### problem 2
-+ recurrence
 
+* 1![](image/recurrence1.png)
+* 2![](image/recurrence2.png)
+* 3![](image/recurrence3.png)
+* 4![](image/recurrence4.png)
+* 5![](image/recurrence5.png)
 ### problem 3
 + show running time thelta(n^2) if array has decreasing order
 + example A = [20 19 17 15 13 10 9 7 6 4 3 1]
@@ -59,7 +63,7 @@ K-CLOEST-ELEMENTS(S, k)
       left = SELECT(S, 1, n, i+1)
 ```
 ```
-K-CLOEST-ELEMENTS(S, k)
+K-CLOSEST-ELEMENTS(S, k)
   mid = (1+n)/2
   median = S[mid]
   /* use median to partition S */
