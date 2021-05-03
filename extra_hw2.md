@@ -1,35 +1,34 @@
 # problem1
-+ this problem is aim to find the index pair (i, j) which meet below formular
-+ max-interval = max_j - min_i where 1<=i<j<=n
-+ max_j = max{Aj, Aj+1, ..., An} and max_i = min{A1, A2, ..., Ai}
-+ and the question is to mind every max and min value in each two partition array.
-+ then we have the recursive relation
-(j,i) = max{Aj,...,An} - min{A1,...,Ai} where 1<=i<j<=n
-+ then we have our pseudocode
+1. this problem is aim to find the index pair (i, j) which meet below formular
+2. max-interval = max_j - min_i where 1<=i<j<=n
+3. max_j = max{Aj, Aj+1, ..., An} and max_i = min{A1, A2, ..., Ai}
+4. and the question is to mind every max and min value in each two partition array.
+5. then we have the recursive relation
+(j,i) = max{Aj,...,An} - min{A1,...,Ai} where 1<=i<j<=n then we have our pseudocode
 ```
 MAX-INTERVAL-PAIR(A)
   //let set S to keep the index pair (i, j) and
   //array B to keep current max interval
   //let lp_min[i] store the minimal vale from A1,...,Ai
-  lp_min[1] = A[1]
-  for i = 1 to n
-      lp_min[i] = min(lp_min[i], A[i])
-  //let rp_max[j] store the maximual vale from Aj,...,An
-  rp_max[n] = A[n]
-  for j = n downto 1
-      rp_max[j] = max(rp_max[j], A[n])
-  for k = 1 to n // k is where we partition the array
-      cur_max_interval = rp_max[n-k] - lp_min[k]
-      j = index of rp_max
-      i = index of lp_min
-      B <- current_max_interval
-      S <- (i,j)
-  max = B[1]
-  for k = 2 to n-1
-      if B[k] > max
-          max = B[k]
-          (i,j) = S[k]
-  return (i,j)
+1  lp_min[1] = A[1]
+2  for i = 1 to n
+3      lp_min[i] = min(lp_min[i], A[i])
+4  //let rp_max[j] store the maximual vale from Aj,...,An
+5  rp_max[n] = A[n]
+6  for j = n downto 1
+7      rp_max[j] = max(rp_max[j], A[n])
+8  for k = 1 to n // k is where we partition the array
+9       cur_max_interval = rp_max[n-k] - lp_min[k]
+10      j = index of rp_max
+11      i = index of lp_min
+12      B <- current_max_interval
+13      S <- (i,j)
+14  max = B[1]
+15  for k = 2 to n-1
+16      if B[k] > max
+17          max = B[k]
+18          (i,j) = S[k]
+19  return (i,j)
 ```   
 #### running time:
 * 1 line-line two for loop, takes O(n) time to record left min and right max with element index
@@ -40,89 +39,101 @@ MAX-INTERVAL-PAIR(A)
 the subproblem is to find max interval in each partition, after we record all the subproblem, and we can find the optimal solution for the value pair.
 
 # problem2
+* we use a degree attribute for every vertice in order to trace the size of each qlique that may exist
 ```
-CANDIDATES-TO-WIN(S)
-  initialize RBT of T(assuming node has two field- id and vote)
-  for i = 1 to n
-      node-i.id = S[i]
-      node-i.vote = 1
-      node = RB-SEARCH(T, node-i)
-      if node.id != node-i.id
-          RB-INSERT(T, node-i)
-      else
-          node-i.vote = node-i.vote + 1
-  max-vote = 1
-  INODER-TREE-WALK(T)
-      INODER-TREE-WALK(T.left)
-      if T.vote > max-vote
-          max-vote = node.vote
-          winner = node.id
-      INODER-TREE-WALK(T.right)
-  return winner
+// let set S keep track of a maximal clique and
+// V represents the adjacency vertices of current clique
+// X represents the vertices already in current clique
+// start with arbitrary vertice in G.V, then output the first maximal clique
+FIND-MAXIMAL-CLIQUE(V, S, X)
+1  if V u X == empty
+2      output S is a maximal clique
+3      return
+4  for each vertice v in V
+5      V' = V n G.Adj[v]
+6      S' = S u v
+7      X' = X n G.Adj[v]
+8      FIND-MAXIMAL-CLIQUE(V', S', X')
+9      V = V \ v
+10     X = X u v
 ```
-+ running time: RB-SEARCH takes logk cause RBT have k node at most. so line 38~45 takes nlogk; cause T only have k node, INORDER-TREE-WALK takes logk,
-line47~53 takes logk total running time is (n+1)logk,
-The final running time should be O(nlogk).
+```
+MAXIMAL-CLIQUE(G)
+1  S = empty
+2  X = empty
+3  V = G.V
+4  FIND-MAXIMAL-CLIQUE(V, S, X)
+5  return S
+```
++ running time:
+* 1. line - assignment of V takes O(|V|)
+* 2. since return a single maximal clique is required, so the recursive function will at most traverse all the edges with an arbitrary vertice, in other words, the first maximal clique will have this vertice contained, thus takes O(|E|) for this arbitrary vertice
+* 3. then the total running time will be **O(|V|+|E|)**
 
 # problem3
-```
-PATH-PRINT(T, x, y)
-  /* height of tree is h = ceiling(logn + 1)*/
-  node1 = x.p
-  node2 = y.p
-  while node1 != root || node2 != root
-      if node1.aux == 1 //marked before, this node should be LCA
-          lca = node1
-          break
-      else if node2.aux == 1
-          lca = node2
-          break
-      node1.aux = 1
-      node2.aux = 1
-      node1 = node1.p
-      node2 = node2.p
-      if node1.val == node2.val // x and y have same height from LCA
-          lca = node1 or node2
-          break
-  node = x.p
-  while node != lca
-      output node.val
-      node.aux = 0
-  node = y.p
-  while node != lca
-      reverse output node.val
-      node.aux = 0
-```
-+ running time:
-  the first traverse who marked lca will be checked by next traverse, which means next traverse comes, the whole traverse will be terminated. so line65~line78 will run k times in total, then running time should be O(k), and line80~line86 will run k times in total, so the final time is O(k) + O(k), thus will be O(k)
+#### defination:
+* 1 subgraph: H: V(H) belongs or equals to V(G) and E(H) belongs or equals
+to E(G)
+* 2 **spanning subgraph**: H: V(H) = V(G) and E(H) belongs or equals to E(G)
+
+#### proof:
+* 1. Assuming there's exist two MST T1 and T2 for this case
+* 2. Since T1 and T2 differs even contains the same nodes, so there exists at least one edge e1 belongs only to one of them, assuming e1 belongs to T1
+* 3. As T2 is another MST, thus, {e1} U T2 will forms a cycle C
+* 4. As an MST, T1 contains no cycle, therefore, cycle C must has another edge e2 which not in T1
+* 5. Since e1 was chosen as the lowest weight belongs to T1, thus, the w(e2) > w(e1)
+* 6. Replacing e2 with e1 in T2 will generates another spanning tree with smaller weight which contradicts assumption T2 is MST
+
+#### examples of second-best MST
+![](image/sb-mst-1.jpg)
+
+![](image/sb-mst-2.jpg)
 
 # problem4
+#### all shortest path in this case should have the same lowest total weight to meet the definition
+#### define C(u,v) as the cost
+#### set Q used to keep total cost with each single path
 ```
-MAX-INTERVAL-DISJOINT(A, B)
-  /* use 2D array ARR to store A,B */
-  for i = 1 to n /* takes O(n) */
-      ARR[1][i] = A[i]
-      ARR[2][i] = B[j]
-  /* merge sort ARR[1][], it takes O(nlogn) */
-  MERGE-SORT(ARR[1], 1, ARR[1].length) /* also MERGE ARR[2] in MERGE procedure */
-  start = ARR[1][1]
-  interval = ARR[2][1] - ARR[1][1]
-  end = start + interval
-  for i = 2 to n
-      if ARR[1][i] <= start + interval /* not disjoint */
-          /* update right boundary with ARR[2][i] if it bigger than start + interval */
-          if ARR[2][i] > start + interval
-              end = ARR[2][i]
-              interval = end - start
-          else
-              end = start + interval
-      else /* disjoint */
-         PUSH(C, start)
-         PUSH(D, end)
-         start = ARR[1][i]
-         interval = ARR[2][i] - start
+NUM-SHORTEST-PATH(G, u, v)
+  // u,v represents src and dst vertices respectively
+1  for i = 1 to G.V
+2      total_cost[i] = 0
+3  Q = empty
+4  SINGLE-PATH-COST(src, dst)
+5  HEAP-SROT(Q) // increasing order
+6  num = COUNT-LOWEST-COST(Q)
+7  output num
+```
+```
+SINGLE-PATH-COST(s, d)
+  // recursively compute the total cost of each single path
+1  if d == v // reach dst vertice
+2      Q <- total_cost[i]
+3      i = i + 1
+4      return
+5  else
+6      for each vertice v in G.Adj[s]
+7          s = v
+8          total_cost[i] = total_cost[i] + C(s,v)
+9          SINGLE-PATH-COST(s, d)
+```
+```
+COUNT-LOWEST-COST(Q)
+1  lowest = Q[1]
+2  num = 1
+3  for i = 1 to G.E
+4      if Q[i] != lowest
+5          return num
+6      else
+7          num = num + 1
 ```
 + running time:
-1. it takes O(nlogn) to sort ARR
-2. line103~line115 take linear time O(n)to compute max interval disjoint set
-3. total time will be O(nlogn)
+1. SINGLE-PATH-COST takes O(|V|*|E|) to compute every single path from u to v
+2. initialize of total cost for each vertice takes O(V)
+3. Generally, heap sort takes O(VlogV)
+4. COUNT-LOWEST-COST takes thelta(E) to find the number of shortest paths
+
++ correctness:
+1. SINGLE-PATH-COST recursively compute the total costs of each single path
+2. heap sort guarantee the Q[1] indicates the cost of the shortest path
+3. COUNT-LOWEST-COST uses to count how many shortest paths with the same lowest cost
