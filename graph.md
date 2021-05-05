@@ -109,7 +109,7 @@ MST-PRIM(G, w, r)
   for each u in G.V
       u.value = infinity
       v.parent = NIL
-  r.value = 0 //arbitery root vertice
+  r.value = 0 //arbitrary root vertices
   Q = G.V
   while Q != NIL
       u = EXTRACT-MIN(Q)
@@ -142,3 +142,13 @@ DAG-SHORTEST-PATHS(G, w, s)
 + the DAG-SHORTEST-PATHS differ when choose different source s --- exercise 24.2-1
 
 ### Dijkstra's algorithm --- for case in which all weight are non-negative
+```
+DIJKSTRA(G, w, s)
+  INITIALIZE-SINGLE-SOURCE(G, s)
+  S = empty
+  Q = G.V
+  while Q != empty
+      u = EXTRACT-MIN(Q)
+      for each vertex in G.Adj[u]
+          RELAX(u, v, w)
+```

@@ -31,25 +31,25 @@ MAX-INTERVAL-PAIR(A)
 19  return (i,j)
 ```   
 #### running time:
-* 1 line-line two for loop, takes O(n) time to record left min and right max with element index
-* 2 line-line takes O(n) to calculate max interval for each subproblem
-* 3 line-line take thelta(n) to find the max interval of all subproblem and index pair
+* 1 line1~7 two for loop, takes O(n) time to record left min and right max with element index
+* 2 line8~13 takes O(n) to calculate max interval for each subproblem
+* 3 line14~18 take thelta(n) to find the max interval of all subproblem and index pair
 * 4 thus it takes O(n) for this algorithm
 #### correctness:
 the subproblem is to find max interval in each partition, after we record all the subproblem, and we can find the optimal solution for the value pair.
 
 # problem2
-* we use a degree attribute for every vertice in order to trace the size of each qlique that may exist
+* we use a degree attribute for every vertices in order to trace the size of each clique that may exist
 ```
 // let set S keep track of a maximal clique and
 // V represents the adjacency vertices of current clique
 // X represents the vertices already in current clique
-// start with arbitrary vertice in G.V, then output the first maximal clique
+// start with arbitrary vertices in G.V, then output the first maximal clique
 FIND-MAXIMAL-CLIQUE(V, S, X)
 1  if V u X == empty
 2      output S is a maximal clique
 3      return
-4  for each vertice v in V
+4  for each vertices v in V
 5      V' = V n G.Adj[v]
 6      S' = S u v
 7      X' = X n G.Adj[v]
@@ -67,7 +67,7 @@ MAXIMAL-CLIQUE(G)
 ```
 + running time:
 * 1. line - assignment of V takes O(|V|)
-* 2. since return a single maximal clique is required, so the recursive function will at most traverse all the edges with an arbitrary vertice, in other words, the first maximal clique will have this vertice contained, thus takes O(|E|) for this arbitrary vertice
+* 2. since return a single maximal clique is required, so the recursive function will at most traverse all the edges with an arbitrary vertices, in other words, the first maximal clique will have this vertices contained, thus takes O(|E|) for this arbitrary vertices
 * 3. then the total running time will be **O(|V|+|E|)**
 
 # problem3
@@ -107,12 +107,12 @@ NUM-SHORTEST-PATH(G, u, v)
 ```
 SINGLE-PATH-COST(s, d)
   // recursively compute the total cost of each single path
-1  if d == v // reach dst vertice
+1  if d == v // reach dst vertices
 2      Q <- total_cost[i]
 3      i = i + 1
 4      return
 5  else
-6      for each vertice v in G.Adj[s]
+6      for each vertices v in G.Adj[s]
 7          s = v
 8          total_cost[i] = total_cost[i] + C(s,v)
 9          SINGLE-PATH-COST(s, d)
@@ -129,9 +129,10 @@ COUNT-LOWEST-COST(Q)
 ```
 + running time:
 1. SINGLE-PATH-COST takes O(|V|*|E|) to compute every single path from u to v
-2. initialize of total cost for each vertice takes O(V)
+2. initialize of total cost for each vertices takes O(V)
 3. Generally, heap sort takes O(VlogV)
 4. COUNT-LOWEST-COST takes thelta(E) to find the number of shortest paths
+5. total running time thus takes O(V*E)
 
 + correctness:
 1. SINGLE-PATH-COST recursively compute the total costs of each single path
