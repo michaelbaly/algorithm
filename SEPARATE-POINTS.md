@@ -193,6 +193,6 @@ GET-POINTS-CLOSEST-TO-INTER(axis, inter)
 + 4. line4~5, it takes O(n*logn)for each recursive call on x-axis and y-axis
 + 5. line6~16, the outer loop takes n times to find a maximum connection line picked, and ADD-LINE process takes O(n^2) to disconnect all the connections with all other points, thus takes O(n^3) to pick all axis-parallel lines
 + 6. we have instance file which contains points ranging from 3 to 100, where 100 represent an upper bound for the value of n.
-+ 7. so for each instance file, it takes n^2 + n*(n-1) + nlogn + nlogn + n^3 to find the minimum lines, if considering to find all instance files, thus it takes n(n^2 + n*(n-1) + 2nlogn + n^3) for the total running time, omit the lower bound, we got the worst case of O(n^4) for the running time 
++ 7. so for each instance file, it takes n^2 + n*(n-1) + nlogn + nlogn + n^3 to find the minimum lines, if considering to find all instance files, thus it takes n(n^2 + n*(n-1) + 2nlogn + n^3) for the total running time, omit the lower bound, we got the worst cas O(n^4) for the running time
 Reference:
 + 1 https://github.com/nickziv/sep_pts
