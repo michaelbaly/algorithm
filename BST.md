@@ -5,7 +5,7 @@ INORDER-TREE-WALK(x)
       print x.key
       INORDER-TREE-WALK(x.right)
 ```
-## recursion version
+## Recursion version
 ```
 TREE-SEARCH(x,k)
   if (x == nil || k == x.key)
@@ -14,7 +14,7 @@ TREE-SEARCH(x,k)
       TREE-SEARCH(x.left, k)
   else TREE-SEARCH(x.right, k)
 ```
-## iterative version
+## Iterative version
 ```
 INTERATIVE-TREE-SEARCH(x,k)
   while x != nil and k != x.key
@@ -42,9 +42,9 @@ TREE-MAXIMUM(x)
 ```
 TREE-SUCCESSOR(x)
   if x.right != nil
-      return TREE-MINIMUM(x.right)
+      return TREE-MINIMUM(x.right) /* case1: min key in its right subtree */
   y = x.p
-  while y != nil and x == y.right /* until x is y's left node */
+  while y != nil and x == y.right  /* case2: until x is y's left node */
       x = y
       y = y.p
   return y  /* find or nil */
@@ -53,9 +53,9 @@ TREE-SUCCESSOR(x)
 ```
 TREE-PREDECESSOR(x)
   if x.left != nil
-      return TREE-MAXIMUN(x.left)
+      return TREE-MAXIMUN(x.left) /* case1: max key in its left subtree */
   y = x.p
-  while y != nil and x == y.left
+  while y != nil and x == y.left  /* case2: until x is y's right child */
       x = p
       y = y.p
   return y /* find or nil */
