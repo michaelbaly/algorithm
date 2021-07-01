@@ -81,19 +81,70 @@ RB-INSERT-FIXUP(T, z)
   while z.p.color == RED
       if z.p == z.p.p.left /* z's parent lies in its grandparents left subtree */
           y = z.p.p.right  /* z's uncle */
-          if y.color == RED    /* CASE1 */
+          if y.color == RED            /* CASE1 */
               z.p.color = BLACK
               y.color = BLACK
               z.p.p.color = RED
               z = z.p.p    /* new position for next iteration */
-          else if z == z.p.right  /* CASE2 */
+          else if z == z.p.right       /* CASE2 */
               z = z.p
               LEFT-ROTATION(T, z)
-          z.p.color = BLACK       /* CASE3 */
-          z.p.p.color = RED
-          RIGHT-ROTATION(T, z.p.p)
+          else
+              z.p.color = BLACK        /* CASE3 */
+              z.p.p.color = RED
+              RIGHT-ROTATION(T, z.p.p)
       else /* right subtree */
-          ...
-          ...
+          y = z.p.p.left  /* uncle lies grandparents's left subtree */
+          if y.color == RED
+              z.p.color = BLACK
+              y.color = BLACK
+              z.p.p.color = RED
+              z = z.p.p /* new position for next iteration */
+          else if z == z.p.left
+              z = z.p
+              RIGHT_ROTATION(T, z)
+          else
+              z.p.color = BLACK
+              z.p.p.color = RED
+              LEFT_ROTATION(T, z.p.p)
   T.root.color = BLACK
+```
+
+#### Delete operation
+```
+RB-TRANSPLANT(T, u, v)
+  if u.p == T.nil
+      T.root = v
+  else if u = u.p.left
+      u.p.left = v
+  else u.p.right = v
+
+  u.p = v.p
+```
+```
+RB-DELETION(T, z)
+  y = z
+  y-orig-color = y.color
+  if z.left == T.nil
+      x = z.right
+      RB-TRANSPLANT(T, z, z.right)
+  else if z.right == T.nil
+      x = z.left
+      RB-TRANSPLANT(T, z, z.left)
+  else
+      y = TREE-MINIMUM(z.right)
+      y-orig-color = y.color
+      x = y.right
+      if y.p == z
+          x.p = y
+      else
+          RB-TRANSPLANT(T, y, y.right)
+          y.right = z.right
+          y.right.p = y
+      RB-TRANSPLANT(T, z, y)
+      y.left = z.left
+      y.left.p = y
+      y.color = z.color
+  if y-orig-color == BLACK
+      RB-DELETE-FIXUP(T, x)
 ```
