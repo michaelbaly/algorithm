@@ -148,3 +148,33 @@ RB-DELETION(T, z)
   if y-orig-color == BLACK
       RB-DELETE-FIXUP(T, x)
 ```
+#### restore RBT's Properties caused by RB-DELETION
+```
+RB-DELETE-FIXUP(T, x)
+  while x != T.root and x.color == BLACK
+      if x == x.p.left
+          w = x.p.right
+          if w.color == RED
+              w.color = BLACK
+              x.p.color = RED
+              LEFT_ROTATION(T, x.p)
+              w = x.p.right
+          if w.left.color == BLACK and w.right.color == BLACK
+              w.color = RED
+              x = x.p
+          else if w.right.color == BLACK
+              w.left.color = BLACK
+              w.color = RED
+              RIGHT-ROTATE(T, w)
+              w = x.p.left
+          else
+              w.color = x.p.color
+              x.p.color = BLACK
+              w.right.color = BLACK
+              LEFT-ROTATE(T, x.p)
+              x = T.root
+      else
+          ...
+          ...
+  x.color = BLACK   
+```
