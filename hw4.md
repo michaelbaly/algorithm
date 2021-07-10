@@ -29,7 +29,7 @@ ai^bj * aj^bi is one of the optimal solution, so ai^bj * aj^bi should not less t
  ![](image/matrix-chains.jpg)
 
 + 2 the S table shows us where to split the sub chain. so we got
-((A1A2)((A3A4)A5)A6) multiple order to get the minimal multiple times
+ **((A1A2)((A3A4)A5)A6)** multiple order to get the minimal multiple times
 which shows as m[1,6] = 3120
 
 ### problem3
