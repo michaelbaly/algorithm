@@ -25,11 +25,11 @@ LEFT-ROTATION(T,x)
     y.left.p = x                     /* link y's left subtree to x */
 
   y.p = x.p                          /* link x's parent to y */
-  if x.p == T.nil                    
-    T.root = y                       
-  elseif x == x.p.left               
+  if x.p == T.nil
+    T.root = y
+  elseif x == x.p.left
     x.p.left = y
-  else x.p.right = y                 
+  else x.p.right = y
 
   y.left = x
   x.p = y                            /* update x's parent */
@@ -72,7 +72,7 @@ RB-INSERT(T, z)
 
   z.left = nil     /* maintain proper tree s */
   z.right = nil
-  z.color = RED
+  z.color = RED    /* maintain property 5, no impact on BH(black height) */
   RB-INSERT-FIXUP(T, z)
 ```
 
@@ -176,5 +176,5 @@ RB-DELETE-FIXUP(T, x)
       else
           ...
           ...
-  x.color = BLACK   
+  x.color = BLACK
 ```
