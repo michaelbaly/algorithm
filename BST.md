@@ -79,8 +79,35 @@ TREE-INSERT(T, z)
       y.left = z
   else y.right = z
 ```
-## tree deletion
+## Tree deletion
+![](image/Tree_delete.png)
+
+#### TRANSPLANT ---> replace u's position with v
+```
+TREE-TRANSPLANT(T, u, v)
+  if u.p = NIL   // where u lies on the tree ---> three cases, top down direction
+      T.root = v
+  else if u == u.p.left
+      u.p.left = v
+  else u.p.right = v
+
+  if v.p != NIL   // bottom up direction
+      v.p = u.p
+```
+
 ```
 TREE-DELETION(T, z)
-  TBD
+  if z.left == nil // case1
+      TREE-TRANSPLANT(T, z, z.right)
+  elseif z.right == nil //case2
+      TREE-TRANSPLANT(T, z, z.left)
+  else
+      y = TREE-MINIMUM(z.right) // case3: z have both two kids
+      if y.p != z  // y lies on left subtree
+          TREE-TRANSPLANT(T, y, y.right)
+          y.right = z.right // top down direction
+          y.right.p = y // bottom up direction
+      TREE-TRANSPLANT(T, z, y) // replace z with y
+      y.left = z.left // arrow down
+      y.left.p = y  // arrow up
 ```
