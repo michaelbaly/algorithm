@@ -71,13 +71,49 @@ TREE-INSERT(T, z)
       if z.key < x.key
           x = x.left
       else x = x.right
-  z.p = y /* link z's parent to y */
-  /* link z to specific postion */
-  if y == nil
+  z.p = y                         /* link z's parent to y */
+
+  if y == nil                     /* link z to specific postion */
       T.root = z
   elseif z.key < y.key
       y.left = z
   else y.right = z
+```
+```
+REC-TREE-INSERT(T, ST, z)
+  if T.root == NIL  // Base case1: T is empty
+      T.root = z
+      return
+  if ST.left == NIL || ST.right == NIL  // Base case2
+      y = ST.left or ST.right
+      y = z
+
+  if z.key < ST.left.key
+      ST = ST.left
+      REC-TREE-INSERT(T, ST, z)
+  else
+      ST = ST.right
+      REC-TREE-INSERT(T, ST, z)
+```
+```
+REC-TREE-INSERT-V2(T, z)
+  if T.root == NIL
+      T.root = z
+  else REC-INSERT(NIL, T.root, z)
+```
+```
+REC-INSERT(p, x, z)
+  if x == NIL                       // insert x.p.left or x.p.right
+      z.p = p
+      if z.key < p.key
+          p.left = z
+      else
+          p.right = z
+  else
+      if z.key < x.key
+          REC-INSERT(x, x.left, z)  // recursive find on left subtree
+      else
+          REC-INSERT(x, x.right, z) // recursive find on right subtree
 ```
 ## Tree deletion
 ![](image/Tree_delete.png)
