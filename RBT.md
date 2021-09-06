@@ -6,11 +6,11 @@
 + 4 if a node is red, then both its children are black
 + 5 for each node, every simple path from the node to its descendant leaves contains same number of black nodes
 
-#### black height of a node x
+#### Black height of a node x
 + 1 represent: bh(x) --- the number of black node down to a leaf (not include node x)
 + 2 black height of a RBT --- bh(root)
 
-#### lemma 13.1
+#### Lemma 13.1
 * the RBT with n internal nodes has height at most **2log(n+1)**
 * dynamic-set operations --- SEARCH/MIN/MAX/SUCCESSOR/PREDECESSOR takes **log(n)**
 * how to support INSERT/DELETION operation in **log(n)**
@@ -75,7 +75,8 @@ RB-INSERT(T, z)
   z.color = RED    /* maintain property 5, no impact on BH(black height) */
   RB-INSERT-FIXUP(T, z)
 ```
-
+#### RB-INSERT fix up cases
+![](image\insert_fixup_cases.png)
 ```
 RB-INSERT-FIXUP(T, z)
   while z.p.color == RED
@@ -88,9 +89,8 @@ RB-INSERT-FIXUP(T, z)
               z = z.p.p    /* new position for next iteration */
           else if z == z.p.right       /* CASE2 */
               z = z.p
-              LEFT-ROTATION(T, z)
-          else
-              z.p.color = BLACK        /* CASE3 */
+              LEFT-ROTATION(T, z)      /* switch to CASE3 after left rotation */
+              z.p.color = BLACK        /* recolor and shift to final state */
               z.p.p.color = RED
               RIGHT-ROTATION(T, z.p.p)
       else /* right subtree */
@@ -102,9 +102,8 @@ RB-INSERT-FIXUP(T, z)
               z = z.p.p /* new position for next iteration */
           else if z == z.p.left
               z = z.p
-              RIGHT_ROTATION(T, z)
-          else
-              z.p.color = BLACK
+              RIGHT_ROTATION(T, z) /* switch to case3 */
+              z.p.color = BLACK    /* recolor and shift to final state */
               z.p.p.color = RED
               LEFT_ROTATION(T, z.p.p)
   T.root.color = BLACK
@@ -148,33 +147,54 @@ RB-DELETION(T, z)
   if y-orig-color == BLACK
       RB-DELETE-FIXUP(T, x)
 ```
-#### restore RBT's Properties caused by RB-DELETION
+#### Restore RBT's Properties caused by RB-DELETION
+
+![delete fix up](image\delete_fixup_cases.png)
+
 ```
 RB-DELETE-FIXUP(T, x)
   while x != T.root and x.color == BLACK
       if x == x.p.left
           w = x.p.right
-          if w.color == RED
+          if w.color == RED    // case1
               w.color = BLACK
               x.p.color = RED
               LEFT_ROTATION(T, x.p)
               w = x.p.right
-          if w.left.color == BLACK and w.right.color == BLACK
+          if w.left.color == BLACK and w.right.color == BLACK // case2
               w.color = RED
               x = x.p
-          else if w.right.color == BLACK
+          else if w.right.color == BLACK    // case3
               w.left.color = BLACK
               w.color = RED
               RIGHT-ROTATE(T, w)
               w = x.p.left
-          else
+          else                              // case4
               w.color = x.p.color
               x.p.color = BLACK
               w.right.color = BLACK
               LEFT-ROTATE(T, x.p)
               x = T.root
       else
-          ...
-          ...
+         w = x.p.left
+         if w.color == RED
+             w.color = BLACK
+             x.p.color = RED
+             RIGHT_ROTATION(T, x.p)
+             w = x.p.left
+         if w.right.color == BLACK and w.left.color == BLACK
+             w.color = RED
+             x = x.p
+         else if w.left.color == BLACK
+             w.right.color = BLACK
+             w.color = RED
+             LEFT_ROTATION(T, w)
+             w = x.p.right
+         else
+             w.color = x.p.color
+             x.p.color = BLACK
+             w.left.color = BLACK
+             RIGHT_ROTATION(T, x.p)
+             x = T.root
   x.color = BLACK
 ```
