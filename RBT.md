@@ -149,7 +149,7 @@ RB-DELETION(T, z)
 ```
 #### Restore RBT's Properties caused by RB-DELETION
 
-![delete fix up](image\delete_fixup_cases.png)
+![--delete fix up--](image\delete_fixup_cases.png)
 
 ```
 RB-DELETE-FIXUP(T, x)

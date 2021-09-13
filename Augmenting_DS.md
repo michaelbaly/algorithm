@@ -52,5 +52,20 @@ OS-RANK(T, x)
 * concept: An interval tree is a RBT that maintains a dynamic set of elements, with each element x containing an interval x.int
 * operation: INT-INSERT/INT-DELETE/INT-SEARCH
 * Theorem 14.4 Any execution of INT-SEARCH(T, i) either returns a node whose interval overlaps i, or return T.nil and the tree T contains no node whose interval overlaps i.
+* interval i and interval i', we say i overlaps i' if:
+ + 1 i.low <= i'.high
+ + 2 i'.low <= i.high
+
+![](image\overlaps.jpg)
 
 ![](image\interval-tree.png)
+```
+INT-SERACH(T, i)
+  x = T.root
+  while x != nil and i does not overlaps x.int
+      if x.left != nil && x.left.max >= i.low
+          x = x.left
+      else
+          x = x.right
+  return x
+```
