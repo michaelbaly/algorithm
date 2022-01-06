@@ -1,3 +1,21 @@
+## 12.1 what is BST?
+### 1. DATA STRUCTURE
+```
+  typedef structure {
+    void * p;
+    void * left;
+    void * right;
+  } BST;
+```
+### 2. Property of BST
+`Let x be a node in a BST.
+If y is a node in the left subtree of x, then y.key <= x.key
+If y is a node in the right subtree of x, then y.key >= x.key`
+
+### 3. Tree walk
+* Easy to remember inorder/preorder/postorder walk always indicates the order the root/subroot node is vistied
+
+
 ```
 INORDER-TREE-WALK(x)
   if x != nil
