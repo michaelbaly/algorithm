@@ -1,10 +1,10 @@
-## 12.1 what is BST?
-### 1. DATA STRUCTURE
+## What is BST?
+### 1. Data structure
 ```
   typedef structure {
-    void * p;
     void * left;
     void * right;
+    int    key;
   } BST;
 ```
 ### 2. Property of BST
@@ -14,8 +14,6 @@ If y is a node in the right subtree of x, then y.key >= x.key`
 
 ### 3. Tree walk
 * Easy to remember inorder/preorder/postorder walk always indicates the order the root/subroot node is vistied
-
-
 ```
 INORDER-TREE-WALK(x)
   if x != nil
@@ -23,7 +21,9 @@ INORDER-TREE-WALK(x)
       print x.key
       INORDER-TREE-WALK(x.right)
 ```
-## Recursion version
+
+### 4. Tree search
+#### 4.1 Recursion version
 ```
 TREE-SEARCH(x,k)
   if (x == nil || k == x.key)
@@ -32,7 +32,7 @@ TREE-SEARCH(x,k)
       TREE-SEARCH(x.left, k)
   else TREE-SEARCH(x.right, k)
 ```
-## Iterative version
+#### 4.2 Iterative version
 ```
 INTERATIVE-TREE-SEARCH(x,k)
   while x != nil and k != x.key
@@ -41,22 +41,31 @@ INTERATIVE-TREE-SEARCH(x,k)
       else x= x.right
   return x
 ```
-## find min
+### 5. Find min/max
 ```
 TREE-MINIMUM(x)
   while x.left != nil
       x = x.left
   return x
 ```
-## find max
 ```
 TREE-MAXIMUM(x)
   while x.right != nil
       x = x.right
   return x
 ```
-## find successor
-### we can assuming that node on right subtree of BST may not have a successor
+### 6. Successor and Predecessor
+* Define:
+* 1. **successor** of a specific node is the node which is first greater than this node if it exist
+* 2. **predecessor** of a specific node is the node which is first lesser than this node if it exist
+
+![](image/BST-pre-suc.png)
+* [notes]
+* 1. node without right subtree may not have a successor
+* 2. node without left subtree may not have a predecessor
+#### 6. Find successor/predecessor
+* 1. we can assuming that node on right subtree of BST may not have a successor
+* 2. we can assuming that node on left subtree of BST may not have a predecessor
 ```
 TREE-SUCCESSOR(x)
   if x.right != nil
@@ -67,7 +76,6 @@ TREE-SUCCESSOR(x)
       y = y.p
   return y  /* find or nil */
 ```
-## find predecessor
 ```
 TREE-PREDECESSOR(x)
   if x.left != nil
@@ -79,7 +87,9 @@ TREE-PREDECESSOR(x)
   return y /* find or nil */
 
 ```
-## tree insert
+### 7. Tree insert
+* **Summary**: `insert either happens with the initial root node or bottom node`
+##### 7.1 Non-recursive version
 ```
 TREE-INSERT(T, z)
   y = nil
@@ -97,6 +107,7 @@ TREE-INSERT(T, z)
       y.left = z
   else y.right = z
 ```
+##### 7.2 Recursive version
 ```
 REC-TREE-INSERT(T, ST, z)
   if T.root == NIL  // Base case1: T is empty
@@ -133,10 +144,10 @@ REC-INSERT(p, x, z)
       else
           REC-INSERT(x, x.right, z) // recursive find on right subtree
 ```
-## Tree deletion
+### 8. Tree deletion
 ![](image/Tree_delete.png)
 
-#### TRANSPLANT ---> replace u's position with v
+##### TRANSPLANT ---> replace u's position with v
 ```
 TREE-TRANSPLANT(T, u, v)
   if u.p = NIL   // where u lies on the tree ---> three cases, top down direction
@@ -151,17 +162,17 @@ TREE-TRANSPLANT(T, u, v)
 
 ```
 TREE-DELETION(T, z)
-  if z.left == nil // case1
+  if z.left == nil                        // case1
       TREE-TRANSPLANT(T, z, z.right)
-  elseif z.right == nil //case2
+  elseif z.right == nil                   // case2
       TREE-TRANSPLANT(T, z, z.left)
   else
-      y = TREE-MINIMUM(z.right) // case3: z have both two kids
-      if y.p != z  // y lies on left subtree
+      y = TREE-MINIMUM(z.right)           // case3: z have both two kids
+      if y.p != z                         // y lies on left subtree
           TREE-TRANSPLANT(T, y, y.right)
-          y.right = z.right // top down direction
-          y.right.p = y // bottom up direction
-      TREE-TRANSPLANT(T, z, y) // replace z with y
-      y.left = z.left // arrow down
-      y.left.p = y  // arrow up
+          y.right = z.right               // top down direction
+          y.right.p = y                   // bottom up direction
+      TREE-TRANSPLANT(T, z, y)            // replace z with y
+      y.left = z.left                     // arrow down
+      y.left.p = y                        // arrow up
 ```
