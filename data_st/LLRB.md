@@ -1,3 +1,6 @@
+### Left-leanning red black tree --- LLRB tree in short
+
+#### Revolution from 2-3 tree or 2-3-4 tree
 * 2-node: one key, two children
 * 3-node: two key, three children
 * 4-node: three key, four children

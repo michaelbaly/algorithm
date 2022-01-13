@@ -1,4 +1,9 @@
 ## What is BST?
+### Running time concept clarify
+* f(n) belongs to big-o(g(n))
+* f(n) belongs to omeiga(g(n))
+* f(n) belongs to theta(g(n))
+
 ### 1. Data structure
 ```
   typedef structure {
@@ -21,6 +26,7 @@ INORDER-TREE-WALK(x)
       print x.key
       INORDER-TREE-WALK(x.right)
 ```
+* Extension: how to use stack implement TREE-WALK ? HINT: when to push, when to pop
 
 ### 4. Tree search
 #### 4.1 Recursion version
@@ -87,6 +93,7 @@ TREE-PREDECESSOR(x)
   return y /* find or nil */
 
 ```
+* https://visualgo.net/en/bst
 ### 7. Tree insert
 * **Summary**: `insert either happens with the initial root node or bottom node`
 ##### 7.1 Non-recursive version
@@ -176,3 +183,9 @@ TREE-DELETION(T, z)
       y.left = z.left                     // arrow down
       y.left.p = y                        // arrow up
 ```
+
+### Blanced search tree --- TBC
+* 2-3 tree, 2-3-4 tree
+* red-black tree
+* B and B+ tree
+* Treap

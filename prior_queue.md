@@ -82,7 +82,8 @@ TOPK-MAX-HEAP(T)
 ```
 + running time: HEAP-EXTRACT-MAX procedure will take responsibility to max heap A
 
-![](max_heapify.png)
+  ![](image/max_heapify.png)
+
 + Pseudocode
 ```
 MAX-HEAPIFY(A, i)
